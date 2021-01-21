@@ -1,10 +1,14 @@
-from flask import Flask
-from flask import request
-import pandas as pd
-import pickle
-import json
+
 import os
 from preprocess_data import preprocess
+import pandas as pd
+
+from flask import Flask , render_template , request
+import pickle
+import json
+
+
+
 
 app = Flask(__name__)
 
@@ -40,6 +44,7 @@ def postJsonHandler():
         my_dict.update({i: values})
 
     df = pd.DataFrame(my_dict)
+    df = preprocess(df)
     X = df.to_numpy()
     y_pred = model.predict(X)
 
@@ -55,7 +60,8 @@ def predict():
     print(type(request))
 
     # X = pd.DataFrame(json.loads(request.get_json()))
-    X = pd.read_json(request.get_json())
+    data = request.get_json()
+    X = pd.read_json(data)
     X = preprocess(X)
     y_pred = model.predict_proba(X)[:, 1]
     return json.dumps(list(y_pred))
