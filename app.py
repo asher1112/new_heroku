@@ -26,7 +26,8 @@ def predict():
     print(request.get_json())
     print(type(request))
 
-    X = pd.DataFrame(json.loads(request.get_json()))
+    #X = pd.DataFrame(json.loads(request.get_json()))
+    X = pd.read_json(request.get_json())
     X = preprocess(X)
     y_pred = model.predict_proba(X)[:, 1]
     return json.dumps(list(y_pred))
