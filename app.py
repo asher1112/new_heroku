@@ -24,6 +24,7 @@ def predict():
     print('request is json' , request.is_json)
     print(request)
     print(request.get_json())
+    print(type(request))
 
     X = pd.DataFrame(json.loads(request.get_json()))
     X = preprocess(X)
