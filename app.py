@@ -19,8 +19,11 @@ def index():
     
 @app.route('/predict', methods=["POST"])
 def predict():
-    if not request.is_json:
-        return "Not a Valid Request", 400
+
+    print('type of the request ' , type(request))
+    print('request is json' , request.is_json)
+    print(request)
+    print(request.get_json())
 
     X = pd.DataFrame(json.loads(request.get_json()))
     X = preprocess(X)
